@@ -9,6 +9,9 @@ export default function Home() {
       </Head>
       <div>
         <h1 className={styles.title}>Projeto Next</h1>
+        <p className={styles.description}>
+        Board - Organizando suas tarefas
+        </p>
       </div>
     </>
   )
