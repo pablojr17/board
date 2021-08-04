@@ -4,7 +4,7 @@ import { FiX } from 'react-icons/fi';
 
 export function SignInButton() {
 
-  const session = false;
+  const session = true;
 
   return session ? (
     <button
@@ -17,9 +17,9 @@ export function SignInButton() {
     </button>
   ) : (
     <button
-      type="button"
-      className={styles.signInButton}
-      onClick={() => { }}>
+    type="button"
+    className={styles.signInButton}
+    onClick={() => { }}>
       <FaGithub color="#ffb800" />
       Entrar com o github
     </button>
