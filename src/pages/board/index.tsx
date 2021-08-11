@@ -8,6 +8,8 @@ import { FiCalendar, FiClock, FiEdit2, FiPlus, FiTrash } from 'react-icons/fi'
 import { SupportButton } from '../../components/SupportButton'
 
 import firebase from '../../services/firebaseConnection';
+import format from 'date-fns/format'
+import Link from 'next/link'
 
 interface BoardProps {
   user: {
@@ -18,6 +20,7 @@ interface BoardProps {
 
 export default function Board({user}: BoardProps) {
   const [input, setInput] = useState('');
+  const [taskList, setTaskList] = useState([]);
 
   async function handleAddTask(e: FormEvent) {
     e.preventDefault();
@@ -28,13 +31,24 @@ export default function Board({user}: BoardProps) {
   } 
 
     await firebase.firestore().collection('tarefas').add({
-      createdAt: new Date(),
-      tarefe: input,
+      created: new Date(),
+      tarefa: input,
       userId: user.id,
       nome: user.nome
     })
     .then((doc) => {
       console.log("Cadastrado")
+      let data = {
+        id: doc.id,
+        created: new Date(),
+        createdFormated: format(new Date(), "dd/MM/yyyy"),
+        tarefa: input,
+        userId: user.id,
+        nome: user.nome
+      }
+
+      setTaskList([...taskList, data]);
+      setInput('');
     }).catch((error) => {
       console.log("Erro", error)
     })
@@ -62,13 +76,16 @@ export default function Board({user}: BoardProps) {
         <h1>Você tem 2 tarefas!</h1>
 
         <section>
-          <article className={styles.taskList}>
-            <p>Aprender a criar projetos usando NextJS e aplicando firebase como back</p>
+          {taskList.map((task) => (
+          <article key={task.id} className={styles.taskList}>
+            <Link href={`/board/${task.id}`}>
+            <p>{task.tarefa}</p>
+            </Link>
             <div className={styles.actions}>
               <div>
                 <div>
                   <FiCalendar size={20} color="#ffb800" />
-                  <time>04 Agosto 2021</time>
+                  <time>{task.createdFormated}</time>
                 </div>
                 <button>
                   <FiEdit2 size={20} color="#fff" />
@@ -82,6 +99,7 @@ export default function Board({user}: BoardProps) {
               </button>
             </div>
           </article>
+          ))}
         </section>
       </main>
 
