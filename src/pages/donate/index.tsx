@@ -1,7 +1,17 @@
+import { GetServerSideProps } from 'next';
+import { getSession } from 'next-auth/client';
 import Head from 'next/head'
 import styles from './styles.module.scss'
 
-export default function Donate() {
+interface DonateProps {
+  user: {
+    nome: string;
+    id: string;
+    image: string;
+  }
+}
+
+export default function Donate({ user}: DonateProps) {
   return (
     <>
     <Head>
@@ -11,7 +21,7 @@ export default function Donate() {
       <img src="/images/rocket.svg" alt="Seja apoiado" />
 
       <div className={styles.vip}>
-        <img src="https://avatars.githubusercontent.com/u/47211806?v=4" alt="Imagem do Apoiador" />
+        <img src={user.image} alt="Imagem do Apoiador" />
         <span>Parabéns coê é um novo apoiador</span>
       </div>
 
@@ -22,4 +32,29 @@ export default function Donate() {
       </main>
     </>
   );
+}
+
+export const getServerSideProps: GetServerSideProps = async ({ req }) => {
+  const session = await getSession({ req });
+
+  if (!session?.id) {
+    return {
+      redirect: {
+        destination: '/',
+        permanent: false
+      }
+    }
+  }
+
+  const user = {
+    nome: session?.user.name,
+    id: session?.id,
+    image: session?.user.image
+  }
+
+  return {
+    props: {
+      user
+    }
+  }
 }
