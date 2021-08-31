@@ -11,6 +11,9 @@ interface DonateProps {
   }
 }
 
+//CLIENT_ID AdqKuo9phfTrVvp2e3pRhMTcnaOUGzlUseoaOHdRZ3_Z4pStAdRX14XAtPKOLS2Hakjxks4eSTvM74N_
+// <script src="https://www.paypal.com/sdk/js?client-id=YOUR_CLIENT_ID"></script>
+
 export default function Donate({ user}: DonateProps) {
   return (
     <>
