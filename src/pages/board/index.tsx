@@ -169,7 +169,6 @@ export default function Board({ user, data }: BoardProps) {
           <time>Ultima doação foi a 3 dias</time>
         </div>
       </div>
-
       <SupportButton />
     </>
   )
