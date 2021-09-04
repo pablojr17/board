@@ -26,7 +26,7 @@ export default function Donate({ user }: DonateProps) {
 
       <div className={styles.vip}>
         <img src={user.image} alt="Imagem do Apoiador" />
-        <span>Parabéns coê é um novo apoiador</span>
+        <span>Parabéns você é um novo apoiador</span>
       </div>
 
       <h1>Seja um apoiador deste projeto 🏆</h1>
@@ -44,8 +44,8 @@ export default function Donate({ user }: DonateProps) {
           })
         }}
         onApprove={(data, actions) => {
-          return actions.order.capture().then(details => {
-            console.log(details)
+          return actions.order.capture().then(function(details) {
+            console.log('Compra aprovada: ' + details.payer.name.given_name)
           })
         }}
       />
